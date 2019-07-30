@@ -13,6 +13,7 @@ class BaseHook {
 			return;
 		}
 		
+		fn = fn ? fn : () => {};
 		this._taps.push({
 			options,
 			fn,
@@ -23,10 +24,9 @@ class BaseHook {
 		if (!this._runner) {
 			this._runner = this._compile({
 				taps: this._taps,
-				args,
 			});
 		}
-		this._runner();
+		this._runner(args);
 	}
 
 	_compile(config) {
