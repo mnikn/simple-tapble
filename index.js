@@ -1,29 +1,35 @@
-const AsyncSeriseHook = require('./async-series-hooks');
+const AsyncParallelHook = require('./async-parallel-hooks');
 
-const hook = new AsyncSeriseHook();
+const hook = new AsyncParallelHook();
 hook.tap({
   name: 't1',
 }, (str) => {
-  Promise.resolve(str);
-  let i = 0;
-  while (i++ < 10000);
-  console.log('t1:', str);
+  return new Promise((resolve) => {
+    setTimeout(() => {
+      console.log('t1:', str);
+      resolve(str);
+    }, 1000);
+  });
 });
 hook.tap({
   name: 't2',
 }, (str) => {
-  Promise.resolve(str);
-  let i = 0;
-  while (i++ < 10);
-  console.log('t2:', str);
+  return new Promise((resolve) => {
+    setTimeout(() => {
+      console.log('t2:', str);
+      resolve(str);
+    }, 10);
+  });
 });
 hook.tap({
   name: 't3',
 }, (str) => {
-  Promise.resolve(str);
-  let i = 0;
-  while (i++ < 1000);
-  console.log('t3:', str);
+  return new Promise((resolve) => {
+    setTimeout(() => {
+      console.log('t3:', str);
+      resolve(str);
+    }, 10);
+  });
 });
 
 hook.call('testStr');
